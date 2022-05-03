@@ -15,6 +15,11 @@ client.on('ready', () =>{
         } else {
           console.log('Success');
       };
+    commands = client.application?.commands
+    commands?.create({ 
+        name: "rollglove",
+        description: "take your chance to roll for gloves"
+    })
 })
 })
 
@@ -43,7 +48,7 @@ client.on('message', (messageCreate) =>{
                     messageCreate.reply('You won, probably cheating');
                     db.exec(`UPDATE tries SET won = won + 1 WHERE name = ("${userid}")`);
                 } else {
-                    messageCreate.reply(`You did not win! Fucking loser! \n Number of attempts: ${attempts} \n Number of wins: ${wins}`);
+                    messageCreate.reply(`You did not win! Fucking loser! \n Number of attempts: ${attempts} \n Number of wins: ${wins} \n Type ".help" for a list of commands`);
                 }
                 db.close();
                 })
@@ -51,7 +56,10 @@ client.on('message', (messageCreate) =>{
         })
         return
     })
-}
+    }
+    if (messageCreate.content == '.help') {
+        messageCreate.reply('Commands: \n .rollglove')
+    }
 })
 
 function calculateAttempt() {
